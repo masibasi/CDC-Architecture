@@ -1,9 +1,9 @@
 # CDC-Architecture
 # Overlook
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ece687e4-e35c-4c22-885e-cf206f9c9f4b/Untitled.png)
+![image](https://user-images.githubusercontent.com/60805546/234344933-f8e42995-2cc6-484b-bd82-a940e7ea57d4.png)
+![image](https://user-images.githubusercontent.com/60805546/234344976-2b2dc457-96f4-4bcd-8b55-7f23c7347880.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/74eff083-c659-4a04-a7ea-e735d5c2e2f6/Untitled.jpeg)
 
 ## 목적
 
