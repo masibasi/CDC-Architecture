@@ -44,3 +44,7 @@ React**(Axios) → **Spring1**, **Spring2, Spring3**(JPA) → **MySQL1**(SourceD
 > - **Producer** : 메세지를 생산하여 브로커의 토픽 이름으로 보내는 서버 또는 애플리케이션 등을 말한다.
 > - **Consumer** : 브로커의 토픽 이름으로 저장된 메세지를 가져가는 서버 또는 애플리케이션 등을 말한다.
 > - kafka 이해 : [https://velog.io/@shinmj1207/Apache-Kafka-메세징-시스템과-Kafka의-작동-방식](https://velog.io/@shinmj1207/Apache-Kafka-%EB%A9%94%EC%84%B8%EC%A7%95-%EC%8B%9C%EC%8A%A4%ED%85%9C%EA%B3%BC-Kafka%EC%9D%98-%EC%9E%91%EB%8F%99-%EB%B0%A9%EC%8B%9D)
+
+
+
+See more in Link : https://www.notion.so/7eec01b9bdcc49e3a79188c3bfb96483?pvs=4
