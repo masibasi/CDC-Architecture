@@ -4,46 +4,63 @@
 ![image](https://user-images.githubusercontent.com/60805546/234344933-f8e42995-2cc6-484b-bd82-a940e7ea57d4.png)
 ![image](https://user-images.githubusercontent.com/60805546/234344976-2b2dc457-96f4-4bcd-8b55-7f23c7347880.png)
 
-
-## 목적
+## 목적 및 개요
 
 > **1. Docker, Kafka, Debezium Engine을 기반으로 CDC 구현.**
 기반 CDC 구조를 구축한 뒤 Source Database조작과 변동사항이 적용된SInk Database 확인의 접근이 가능하도록
-**2. Front & Back End 연결 : React → Spring → DB 구조를 구축하는 것.**
+**2. Front & Back End 연결 : React → Spring → DB 구조를 구축하는 것.
+3. Source DB에 두개의 테이블을 생성. 각각의 변동사항을 각각Target DB 두개로 전송하도록 CDC구현하였음
+4. 각각의 DB는 각각의 Spring Server를 통해 JPA로 접근이 가능하도록 구현
+5. 각 Spring Server에는 REST API로 접근하도록 React Front-page를 구현**
 
 **CDC :** 
 **MySQL** → kafka Connect(Source Connector, Debezium) → **Kafka** → kafka Connect(JDBC Sink Connector) → **Mysql
 
 Front & Back :
 React**(Axios) → **Spring1**, **Spring2, Spring3**(JPA) → **MySQL1**(SourceDB), **MySQL2**(SinkDB1) ,**MySQL3**(SinkDB2)
-> 
+>
 
-### CDC란?
+## 목차
 
-> Change Data Capture. 데이터베이스에서 데이터 변경 발생 시 변경된 데이터를 사용하여 동작을 취할 수 있도록 지원하는 기능
-[https://m0rph2us.github.io/mysql/cdc/debezium/2020/05/23/mysql-cdc-with-debezium-1.html](https://m0rph2us.github.io/mysql/cdc/debezium/2020/05/23/mysql-cdc-with-debezium-1.html)
-`// CDC가 필요한 이유`
-> 
+### 1. SourceDB → Connector → Kafka
 
-### Debezium
+### 2. Kafka → JDBC connector → SinkDB1
 
-> Apache Kafka를 기반으로 구축되었으며, 
-특정 DBMS를 모니터링하는 Kafka Connect 호환 커넥터를 제공하기 위해 시작된 프로젝트
-다양한 DBMS의 변경 사항을 캡쳐하고 유사한 구조의 변경 이벤트를 produce 하는 커넥터 라이브러리를 구축
-> 
+### 2-1. Kafka → JDBC connector → SinkDB2
 
-### Kafka
+### 3. Spring → MySQL 연동
 
-> - **아파치 카프카**는 빠르고 확장 가능한 작업을 위해 데이터 피드의 분산 스트리밍, 파이프 라이닝 및 재생을 위한 `실시간 스트리밍 데이터를 처리하기 위한 목적으로 설계`된 오픈 소스 분산형 게시-구독 메시징 플랫폼이다
+### 4. React → Spring 연동
 
-**Kafka 용어 정리**
-> 
-> - **Broker** : 카프카 애플리케이션이 설치되어 있는 서버 또는 노드
-> - **Topic** : 프로듀서와 컨슈머들이 카프카로 보낸 자신들의 메세지를 구분하기 위한 네임으로 사용
-> - **Partition** : 병렬처리가 가능하도록 토픽을 나눌 수 있f고, 많은 양의 메세지 처리를 위해 파티션의 수를 늘려줄 수 있다.
-> - **Producer** : 메세지를 생산하여 브로커의 토픽 이름으로 보내는 서버 또는 애플리케이션 등을 말한다.
-> - **Consumer** : 브로커의 토픽 이름으로 저장된 메세지를 가져가는 서버 또는 애플리케이션 등을 말한다.
-> - kafka 이해 : [https://velog.io/@shinmj1207/Apache-Kafka-메세징-시스템과-Kafka의-작동-방식](https://velog.io/@shinmj1207/Apache-Kafka-%EB%A9%94%EC%84%B8%EC%A7%95-%EC%8B%9C%EC%8A%A4%ED%85%9C%EA%B3%BC-Kafka%EC%9D%98-%EC%9E%91%EB%8F%99-%EB%B0%A9%EC%8B%9D)
+### 5. TroubleShooting
+
+# 0. 진행 환경
+
+- Macbook Air (M1) Docker
+
+
+
+# 느낀점
+
+CDC, 카프카, 데베지움, JDBC등 **개념이 확실치 않은 상태**에서 실습을 진행해보니 한줄 집어넣을 떄 마다 에러가 생겼다
+
+**실습환경의 문제인 줄 알고** 로컬 (mac m1), VM(Ubuntu 20.04)등 환경을 옮겨가며 진행해봤는데 계속 에러가 나고 고쳐지지 않아 4번정도 엎은 것 같다.
+
+무지성으로 따라가기보다 **천천히 해보자는 생각으로 공식문서**를 읽으며 공식문서에서 제공하는 실습을 해본 뒤, OCI 환경에서 성공을 해냈다.
+
+문서화를 위해 마지막으로 Local에서 천천히 다시 시도하는데 귀신같이 에러가 나지 않았고 CDC 구축을 성공적으로 마무리 해냈다.
+
+기본적인 것 인데, **공식문서를 잘 읽어보고 차근차근 모르는 부분은 시간을 들여 검색해가며 이해하고 실행하는것을 잊어먹고 있었다.**
+
+파일럿 프로그램을 작성하면서 React, Sprinng,이 결합되어 어떻게 데이터베이스와 통신하는지 조금이나마 이해한 것 같아 기분이 좋았다.
+
+작은 구조이지만 **CDC의 의미와 카프카가 필요한 이유**에 대해서도 얕게나마 이해할 수 있었다.
+
+# Github
+
+[https://github.com/masibasi/CDC-Architecture](https://github.com/masibasi/CDC-Architecture)
+
+[https://github.com/masibasi/CDC-Front](https://github.com/masibasi/CDC-Front)
 
 
 
